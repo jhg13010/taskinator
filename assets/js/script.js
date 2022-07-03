@@ -14,3 +14,17 @@ function addTask() {
 }
 
 buttonEl.addEventListener("click", addTask) 
+
+/*feature/form-submit
+    - create task via form and indicate type of task
+    - submit form via button or enter 
+    - prevent empty form fields from submitting 
+To Do: 
+    - create feature 
+    - add HTML 
+    - handle form submission 
+    - capture form values
+    - organize functionality
+    - address usability
+    - save with Git 
+*/ 
