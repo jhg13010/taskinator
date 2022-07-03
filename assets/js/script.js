@@ -58,12 +58,29 @@ formEl.addEventListener("submit", taskFormHandler);
     - create task via form and indicate type of task
     - submit form via button or enter 
     - prevent empty form fields from submitting 
-To Do: 
-    - create feature ==> DONE
-    - add HTML ==> DONE
-    - handle form submission ==> DONE
-    - capture form values ==> DONE
-    - organize functionality
-    - address usability
-    - save with Git 
+    To Do: 
+        - create feature ==> DONE
+        - add HTML ==> DONE
+        - handle form submission ==> DONE
+        - capture form values ==> DONE
+        - organize functionality
+        - address usability
+        - save with Git 
 */ 
+
+/* feature/update-tasks
+    - set default status
+    - change of status in dropdown will move task to appropriate column
+    - edit and delete button
+    - edit button will change to save task 
+    - delete task removes entireley 
+    To Do: 
+        - create feature 
+        - create HTML lists
+        - apply unique id to each task 
+        - create dynamic task buttons 
+        - ability to delete
+        - load task form for editing
+        - move tasks by status
+        - save with git
+*/
