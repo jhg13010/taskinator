@@ -1,3 +1,5 @@
+//task id incrementer
+var taskIdCounter = 0;
 //connect js to HTML forms and ul
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
@@ -34,6 +36,9 @@ function createTaskEl(taskDataObj) {
     //create list elements 
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
+
+    //add data id for incrementing
+    listItemEl.setAttribute("data-task-id", taskIdCounter);
     
     //create div element within list element to enable 2 headings 
     var taskInfoEl = document.createElement("div");
@@ -45,6 +50,9 @@ function createTaskEl(taskDataObj) {
     //append div to li and li to ul
     listItemEl.appendChild(taskInfoEl);
     tasksToDoEl.appendChild(listItemEl);
+
+    //increase data id counter
+    taskIdCounter++;
 }
 
 
