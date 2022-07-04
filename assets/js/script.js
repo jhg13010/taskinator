@@ -49,10 +49,58 @@ function createTaskEl(taskDataObj) {
 
     //append div to li and li to ul
     listItemEl.appendChild(taskInfoEl);
+
+    //add the actions to the task 
+    var taskActionsEl = createTaskActions(taskIdCounter);
+    listItemEl.appendChild(taskActionsEl);
+
+    //append the task to the list 
     tasksToDoEl.appendChild(listItemEl);
 
     //increase data id counter
     taskIdCounter++;
+};
+
+function createTaskActions(taskId) {
+    //create div element with identifying class
+    var actionContainerEl = document.createElement("div");
+    actionContainerEl.className = "task-actions";
+
+    // create edit button
+    var editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.className = "btn edit-btn";
+    editButtonEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(editButtonEl);
+
+    //craete delete button
+    var deleteButtonEl =  document.createElement("button");
+    deleteButtonEl.textContent = "Delete";
+    deleteButtonEl.className = "btn delete-btn";
+    deleteButtonEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(deleteButtonEl);
+
+    var statusSelectEl = document.createElement("select");
+    statusSelectEl.className = "select-status";
+    statusSelectEl.setAttribute("name", "status-change");
+    statusSelectEl.setAttribute("data-task-id", taskId);
+
+    actionContainerEl.appendChild(statusSelectEl);
+
+    var statusChoices = ["To Do", "In Progress", "Completed"];
+    for (var i=0; i < statusChoices.length; i++) {
+        //create option element 
+        var statusOptionEl = document.createElement("option");
+        statusOptionEl.textContent = statusChoices[i];
+        statusOptionEl.setAttribute("value", statusChoices[i]);
+
+        //append to select
+        statusSelectEl.appendChild(statusOptionEl);
+    }
+
+    return actionContainerEl;
 }
 
 
@@ -83,10 +131,10 @@ formEl.addEventListener("submit", taskFormHandler);
     - edit button will change to save task 
     - delete task removes entireley 
     To Do: 
-        - create feature 
-        - create HTML lists
-        - apply unique id to each task 
-        - create dynamic task buttons 
+        - create feature ==> DONE
+        - create HTML lists ==> DONE
+        - apply unique id to each task ==> DONE 
+        - create dynamic task buttons  ==> DONE
         - ability to delete
         - load task form for editing
         - move tasks by status
