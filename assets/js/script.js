@@ -99,28 +99,52 @@ function createTaskActions(taskId) {
 
         //append to select
         statusSelectEl.appendChild(statusOptionEl);
-    }
+    };
 
     return actionContainerEl;
-}
+};
 
 //call form on form submission (click or enter)
 formEl.addEventListener("submit", taskFormHandler);
 
 //function to find button IDs prior to delete
 function taskButtonHandler(event) {
-    if (event.target.matches(".delete-btn")) {
+   //get target element 
+   var targetEl = event.target;
+   
+   //edit button click
+   if (targetEl.matches(".edit-btn")) {
+    var taskId = targetEl.getAttribute("data-task-id");
+    editTask(taskId);
+   } 
+    // delete button click
+    else if (event.target.matches(".delete-btn")) {
         //get element's task id
         var taskId = event.target.getAttribute("data-task-id");
         deleteTask(taskId);
-    }
-}
+    };
+};
 
 //function to execute delete 
 function deleteTask(taskId) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
     taskSelected.remove();
-}
+};
+
+//function to execute edit 
+function editTask(taskId) {
+    console.log("editing task#" + taskId);
+
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+
+    var taskName = taskSelected.querySelector("h3.task-name").textContent;
+    var taskType = taskSelected.querySelector("span.task-type").textContent;
+
+    document.querySelector("#save-task").textContent = "Save Task";
+    document.querySelector("input[name='task-name']").value = taskName
+    document.querySelector("select[name='task-type']").value = taskType
+    formEl.setAttribute("data-task-id", taskId);
+};
 
 
 //utilize bubbling to delete specific events via main content 
@@ -153,7 +177,7 @@ pageContentEl.addEventListener("click", taskButtonHandler);
         - create HTML lists ==> DONE
         - apply unique id to each task ==> DONE 
         - create dynamic task buttons  ==> DONE
-        - ability to delete
+        - ability to delete ==> Delete
         - load task form for editing
         - move tasks by status
         - save with git
