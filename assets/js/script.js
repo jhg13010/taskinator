@@ -1,6 +1,7 @@
 //task id incrementer
 var taskIdCounter = 0;
 //connect js to HTML forms and ul
+var pageContentEl = document.querySelector("#page-content");
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
 
@@ -103,10 +104,27 @@ function createTaskActions(taskId) {
     return actionContainerEl;
 }
 
-
 //call form on form submission (click or enter)
 formEl.addEventListener("submit", taskFormHandler);
 
+//function to find button IDs prior to delete
+function taskButtonHandler(event) {
+    if (event.target.matches(".delete-btn")) {
+        //get element's task id
+        var taskId = event.target.getAttribute("data-task-id");
+        deleteTask(taskId);
+    }
+}
+
+//function to execute delete 
+function deleteTask(taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    taskSelected.remove();
+}
+
+
+//utilize bubbling to delete specific events via main content 
+pageContentEl.addEventListener("click", taskButtonHandler);
 
 
 
