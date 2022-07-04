@@ -7,8 +7,10 @@ var tasksToDoEl = document.querySelector("#tasks-to-do");
 var tasksInProgressEl = document.querySelector("#tasks-in-progress");
 var tasksCompletedEl = document.querySelector("#tasks-completed");
 
-//create functin to handle form submission
+// tasks array 
+var tasks = [];
 
+//function to handle form submission
 function taskFormHandler(event) {
     //stop page refresh 
     event.preventDefault();
@@ -41,12 +43,16 @@ function taskFormHandler(event) {
         var taskDataObj = {
             name: taskNameInput,
             type: taskTypeInput,
+            status: "to do"
         };
         createTaskEl(taskDataObj);
     }
 };
 
 function createTaskEl(taskDataObj) {
+    console.log(taskDataObj);
+    console.log(taskDataObj.status);
+  
     //create list elements 
     var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
@@ -60,7 +66,6 @@ function createTaskEl(taskDataObj) {
 
     //apply html content to div element to enable 2 headings 
     taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
-
     //append div to li and li to ul
     listItemEl.appendChild(taskInfoEl);
 
@@ -70,6 +75,10 @@ function createTaskEl(taskDataObj) {
 
     //append the task to the list 
     tasksToDoEl.appendChild(listItemEl);
+
+    //store task ID into task array variable 
+    taskDataObj.id = taskIdCounter;
+    tasks.push(taskDataObj);
 
     //increase data id counter
     taskIdCounter++;
@@ -128,6 +137,14 @@ function completeEditTask(taskName, taskType, taskId) {
     taskSelected.querySelector("h3.task-name").textContent = taskName;
     taskSelected.querySelector("span.task-type").textContent = taskType;
 
+    //loop through tasks array and task object with new content
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === parseInt(taskId)) {
+            tasks[i].name = taskName;
+            tasks[i].type = taskType;
+        }
+    };
+
     //alert user
     alert("Task Updated!");
 
@@ -158,6 +175,18 @@ function taskButtonHandler(event) {
 function deleteTask(taskId) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
     taskSelected.remove();
+
+    var updatedTaskArr = [];
+
+    for (var i = 0; i < tasks.length; i++) {
+        //if task[i].id doesn't match value of taskId, keep it via pushing to new array
+        if (tasks[i].id !== parseInt(taskId)) {
+            updatedTaskArr.push(tasks[i]);
+        }
+    }
+
+    //reassign tasks array to the updated tasks array
+    tasks = updatedTaskArr;
 };
 
 //function to execute edit 
@@ -197,6 +226,13 @@ function taskStatusChangeHandler(event) {
     } else if (statusValue === "completed") {
         tasksCompletedEl.appendChild(taskSelected);
     };
+
+    for (var i = 0; i < tasks.length; i++) {
+        if (tasks[i].id === parseInt(taskId)) {
+            tasks[i].status = statusValue;
+        }
+    } 
+    console.log(tasks);
 };
 
 //listener for status changes for kanban use
@@ -233,4 +269,15 @@ pageContentEl.addEventListener("change", taskStatusChangeHandler);
         - load task form for editing ==> DONE
         - move tasks by status ==> DONE
         - save with git ==> DONE    
+*/
+
+/* feature/optimization
+    - restructure to use localStorage
+    To Do: 
+        - create feature
+        - save tasks to an array 
+        - save to localStorage
+        - load from localStorage
+        - optimize code
+        - save with git 
 */
