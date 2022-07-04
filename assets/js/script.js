@@ -4,6 +4,8 @@ var taskIdCounter = 0;
 var pageContentEl = document.querySelector("#page-content");
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+var tasksInProgressEl = document.querySelector("#tasks-in-progress");
+var tasksCompletedEl = document.querySelector("#tasks-completed");
 
 //create functin to handle form submission
 
@@ -173,9 +175,33 @@ function editTask(taskId) {
     formEl.setAttribute("data-task-id", taskId);
 };
 
-
-//utilize bubbling to delete specific events via main content 
+//handler to utilize bubbling to delete/edit specific events 
 pageContentEl.addEventListener("click", taskButtonHandler);
+
+//
+function taskStatusChangeHandler(event) {
+    //get items ID
+    var taskId = event.target.getAttribute("data-task-id");
+
+    //get current value of select option
+    var statusValue = event.target.value.toLowerCase();
+
+    //find parent task item element based on id
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+
+    //movement conditions 
+    if (statusValue === "to do") {
+        tasksToDoEl.appendChild(taskSelected);
+    } else if (statusValue === "in progress") {
+        tasksInProgressEl.appendChild(taskSelected);
+    } else if (statusValue === "completed") {
+        tasksCompletedEl.appendChild(taskSelected);
+    };
+};
+
+//listener for status changes for kanban use
+pageContentEl.addEventListener("change", taskStatusChangeHandler);
+
 
 
 /*feature/form-submit
@@ -187,9 +213,9 @@ pageContentEl.addEventListener("click", taskButtonHandler);
         - add HTML ==> DONE
         - handle form submission ==> DONE
         - capture form values ==> DONE
-        - organize functionality
-        - address usability
-        - save with Git 
+        - organize functionality ==> DONE
+        - address usability ==> DONE
+        - save with Git ==> DONE
 */ 
 
 /* feature/update-tasks
@@ -203,8 +229,8 @@ pageContentEl.addEventListener("click", taskButtonHandler);
         - create HTML lists ==> DONE
         - apply unique id to each task ==> DONE 
         - create dynamic task buttons  ==> DONE
-        - ability to delete ==> Delete
-        - load task form for editing
-        - move tasks by status
-        - save with git
+        - ability to delete ==> Delete ==> DONE
+        - load task form for editing ==> DONE
+        - move tasks by status ==> DONE
+        - save with git ==> DONE    
 */
