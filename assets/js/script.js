@@ -82,6 +82,8 @@ function createTaskEl(taskDataObj) {
 
     //increase data id counter
     taskIdCounter++;
+
+    saveTasks();
 };
 
 function createTaskActions(taskId) {
@@ -126,9 +128,6 @@ function createTaskActions(taskId) {
     return actionContainerEl;
 };
 
-//call form on form submission (click or enter)
-formEl.addEventListener("submit", taskFormHandler);
-
 function completeEditTask(taskName, taskType, taskId) {
     //find task selected
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
@@ -151,6 +150,8 @@ function completeEditTask(taskName, taskType, taskId) {
     //reset form and task ID
     formEl.removeAttribute("data-task-id");
     document.querySelector("#save-task").textContent = "Add Task";
+
+    saveTasks();
 }
 
 //function to find button IDs prior to edit or delete
@@ -204,9 +205,6 @@ function editTask(taskId) {
     formEl.setAttribute("data-task-id", taskId);
 };
 
-//handler to utilize bubbling to delete/edit specific events 
-pageContentEl.addEventListener("click", taskButtonHandler);
-
 //
 function taskStatusChangeHandler(event) {
     //get items ID
@@ -232,12 +230,23 @@ function taskStatusChangeHandler(event) {
             tasks[i].status = statusValue;
         }
     } 
-    console.log(tasks);
+
+    saveTasks();
 };
+
+//save tasks to localStorage wheneve change/addition occurs 
+function saveTasks () {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+//call form on form submission (click or enter)
+formEl.addEventListener("submit", taskFormHandler);
+
+//handler to utilize bubbling to delete/edit specific events 
+pageContentEl.addEventListener("click", taskButtonHandler);
 
 //listener for status changes for kanban use
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
-
 
 
 /*feature/form-submit
@@ -274,8 +283,8 @@ pageContentEl.addEventListener("change", taskStatusChangeHandler);
 /* feature/optimization
     - restructure to use localStorage
     To Do: 
-        - create feature
-        - save tasks to an array 
+        - create feature ==> DONE
+        - save tasks to an array ==> DONE
         - save to localStorage
         - load from localStorage
         - optimize code
