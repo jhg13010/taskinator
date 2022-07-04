@@ -239,6 +239,59 @@ function saveTasks () {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+//get tasks from local
+// convert from string to array of objects
+//iterat through to create task elements 
+function loadTasks () {
+    var retrievedData = localStorage.getItem("tasks");
+    var tasks = JSON.parse(retrievedData);
+    console.log(tasks);
+
+    for (i = 0; i < tasks.length; i++) {
+        tasks[i].id = taskIdCounter;
+        console.log(tasks[i]);
+         //create list elements 
+        var listItemEl = document.createElement("li");
+        listItemEl.className = "task-item";
+
+        //add data id for incrementing
+        listItemEl.setAttribute("data-task-id", taskIdCounter);
+
+        //create div element within list element to enable 2 headings 
+        var taskInfoEl = document.createElement("div");   
+        taskInfoEl.className = "task-info";
+
+        //apply html content to div element to enable 2 headings 
+        taskInfoEl.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>";
+        //append div to li and li to ul
+        listItemEl.appendChild(taskInfoEl);
+
+        //add the actions to the task 
+        var taskActionsEl = createTaskActions(taskIdCounter);
+        listItemEl.appendChild(taskActionsEl);
+
+        //append the task to the list 
+        tasksToDoEl.appendChild(listItemEl);
+
+        //checking status to place in index
+        if ( tasks[i].status === "to do") {
+            listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
+            tasksToDoEl.appendChild(listItemEl);
+        } else if (tasks[i].status === "in progress") {
+            listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
+            tasksInProgressEl.appendChild(listItemEl);
+        } else if (tasks[i].status === "completed") {
+            listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
+            tasksCompletedEl.appendChild(listItemEl)
+        }
+
+        taskIdCounter++;
+
+        console.log(listItemEl);
+    }
+
+}
+
 //call form on form submission (click or enter)
 formEl.addEventListener("submit", taskFormHandler);
 
@@ -248,6 +301,7 @@ pageContentEl.addEventListener("click", taskButtonHandler);
 //listener for status changes for kanban use
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
 
+loadTasks();
 
 /*feature/form-submit
     - create task via form and indicate type of task
@@ -285,8 +339,8 @@ pageContentEl.addEventListener("change", taskStatusChangeHandler);
     To Do: 
         - create feature ==> DONE
         - save tasks to an array ==> DONE
-        - save to localStorage
-        - load from localStorage
-        - optimize code
+        - save to localStorage ==> DONE
+        - load from localStorage ==> DONE
+        - optimize code ==> didn't work
         - save with git 
 */
